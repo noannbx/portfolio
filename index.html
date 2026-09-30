@@ -1,0 +1,446 @@
+<title>Noann Beaux Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap">
+<style>
+  /* Layout concept: classic nav-driven personal site — sticky header with
+     initials mark, stacked sections, skill bars, education timeline, project
+     cards, contact form. Calm and professional. */
+  :root{
+    --bg:#ffffff;
+    --bg-alt:#f4f5f7;
+    --ink:#161a20;
+    --ink-muted:#5c6470;
+    --line:#e4e6eb;
+    --accent:#3d5afe;
+    --accent-soft:#e8ebff;
+    --font-display:'Space Grotesk', ui-sans-serif, sans-serif;
+    --font-body:'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    color-scheme: light;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#14161b;
+      --bg-alt:#1b1e25;
+      --ink:#eef0f4;
+      --ink-muted:#9aa1ad;
+      --line:#2b2f38;
+      --accent:#7c93ff;
+      --accent-soft:#232a4a;
+      color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#14161b;
+    --bg-alt:#1b1e25;
+    --ink:#eef0f4;
+    --ink-muted:#9aa1ad;
+    --line:#2b2f38;
+    --accent:#7c93ff;
+    --accent-soft:#232a4a;
+    color-scheme: dark;
+  }
+
+  *{ box-sizing:border-box; }
+  html{ scroll-behavior:smooth; }
+  @media (prefers-reduced-motion: reduce){ html{ scroll-behavior:auto; } *{ animation-duration:0.001ms !important; transition-duration:0.001ms !important; } }
+
+  body{ background:var(--bg); color:var(--ink); font-family:var(--font-body); padding-inline:0; line-height:1.5; }
+
+  .wrap{ max-width:880px; margin:0 auto; padding-inline:24px; }
+
+  header.top{
+    position:sticky; top:env(safe-area-inset-top, 0px); z-index:30;
+    background:color-mix(in srgb, var(--bg) 88%, transparent);
+    backdrop-filter:blur(8px); border-bottom:1px solid var(--line);
+  }
+  header.top .wrap{ display:flex; align-items:center; justify-content:space-between; padding-block:14px; gap:16px; }
+  .mark{
+    width:38px; height:38px; border-radius:50%; background:var(--ink); color:var(--bg);
+    display:flex; align-items:center; justify-content:center; font-family:var(--font-display);
+    font-weight:700; font-size:0.95rem; flex-shrink:0;
+  }
+  nav.tabs{ display:flex; gap:4px; overflow-x:auto; scrollbar-width:none; min-width:0; }
+  nav.tabs::-webkit-scrollbar{ display:none; }
+  nav.tabs a{
+    font-size:0.85rem; font-weight:500; color:var(--ink-muted); text-decoration:none;
+    white-space:nowrap; padding:8px 12px; border-radius:6px;
+  }
+  nav.tabs a:hover{ color:var(--ink); background:var(--bg-alt); }
+  nav.tabs a:focus-visible{ outline:2px solid var(--accent); outline-offset:1px; border-radius:6px; }
+
+  main{ padding-block: 8px 48px; }
+  section{ padding-block:56px; border-bottom:1px solid var(--line); }
+  section:last-of-type{ border-bottom:none; }
+
+  .kicker{
+    font-size:0.78rem; font-weight:600; letter-spacing:0.08em; text-transform:uppercase;
+    color:var(--accent); margin-block-end:8px;
+  }
+  h1,h2,h3{ font-family:var(--font-display); text-wrap:balance; margin:0; }
+  h2{ font-size:clamp(1.5rem, 4vw, 1.9rem); margin-block-end:28px; }
+
+  /* Hero */
+  #hero{ padding-block:52px 44px; }
+  .hero-row{ display:flex; align-items:center; gap:28px; flex-wrap:wrap; }
+  .avatar{
+    width:96px; height:96px; border-radius:50%; flex-shrink:0;
+    background:linear-gradient(145deg, var(--accent), var(--accent-soft));
+    display:flex; align-items:center; justify-content:center;
+    font-family:var(--font-display); font-weight:700; font-size:1.8rem; color:#fff;
+  }
+  .hero-text{ min-width:0; flex:1; }
+  h1.name{ font-size:clamp(2rem, 6vw, 2.7rem); font-weight:700; letter-spacing:-0.01em; }
+  .role{ color:var(--ink-muted); font-size:1.05rem; margin-block-start:6px; }
+  .bio{ max-width:64ch; margin-block-start:22px; font-size:1rem; color:var(--ink); }
+  .cta-row{ display:flex; gap:12px; flex-wrap:wrap; margin-block-start:26px; }
+  .btn{
+    font-family:var(--font-body); font-weight:600; font-size:0.9rem; text-decoration:none;
+    padding:11px 20px; border-radius:8px; display:inline-flex; align-items:center; gap:8px;
+    border:1px solid transparent;
+  }
+  .btn.primary{ background:var(--ink); color:var(--bg); }
+  .btn.primary:hover{ opacity:0.88; }
+  .btn.ghost{ border-color:var(--line); color:var(--ink); }
+  .btn.ghost:hover{ border-color:var(--ink); }
+  .btn:focus-visible{ outline:2px solid var(--accent); outline-offset:2px; }
+
+  /* Skills */
+  .skill-groups{ display:grid; grid-template-columns:repeat(2, 1fr); gap:32px 40px; }
+  @media (max-width:600px){ .skill-groups{ grid-template-columns:1fr; } }
+  .skill-group h3{ font-size:0.78rem; font-weight:600; letter-spacing:0.06em; text-transform:uppercase; color:var(--ink-muted); margin-block-end:16px; }
+  .skill{ margin-block-end:16px; }
+  .skill:last-child{ margin-block-end:0; }
+  .skill-label{ display:flex; justify-content:space-between; font-size:0.9rem; margin-block-end:6px; }
+  .skill-label .lvl{ color:var(--ink-muted); font-size:0.82rem; }
+  .bar{ height:6px; border-radius:99px; background:var(--bg-alt); overflow:hidden; }
+  .bar span{ display:block; height:100%; border-radius:99px; background:var(--accent); }
+
+  .soft-skills{ display:flex; flex-wrap:wrap; gap:10px; }
+  .soft-tag{
+    font-size:0.88rem; font-weight:500; color:var(--ink);
+    background:var(--bg-alt); border:1px solid var(--line);
+    padding:8px 14px; border-radius:8px;
+  }
+
+  /* Diplomas / timeline */
+  .timeline{ position:relative; padding-inline-start:26px; }
+  .timeline::before{ content:""; position:absolute; left:5px; top:6px; bottom:6px; width:2px; background:var(--line); }
+  .tl-item{ position:relative; padding-block-end:26px; }
+  .tl-item:last-child{ padding-block-end:0; }
+  .tl-item::before{
+    content:""; position:absolute; left:-26px; top:4px; width:12px; height:12px;
+    border-radius:50%; background:var(--bg); border:2px solid var(--accent);
+  }
+  .tl-year{ font-family:var(--font-display); font-weight:600; font-size:0.82rem; color:var(--accent); }
+  .tl-title{ font-weight:600; margin-block-start:2px; }
+  .tl-desc{ color:var(--ink-muted); font-size:0.9rem; margin-block-start:3px; max-width:56ch; }
+
+  /* Portfolio */
+  .proj-grid{ display:grid; grid-template-columns:repeat(3, 1fr); gap:18px; }
+  @media (max-width:760px){ .proj-grid{ grid-template-columns:1fr; } }
+  .proj-card{
+    background:var(--bg-alt); border:1px solid var(--line); border-radius:12px;
+    overflow:hidden; display:flex; flex-direction:column; min-width:0;
+  }
+  .proj-thumb{
+    height:96px; display:flex; align-items:center; justify-content:center;
+    background:linear-gradient(135deg, var(--accent-soft), var(--bg-alt));
+  }
+  .proj-thumb svg{ width:34px; height:34px; stroke:var(--accent); }
+  .proj-body{ padding:18px; display:flex; flex-direction:column; gap:8px; flex:1; }
+  .proj-body h3{ font-size:1.02rem; font-weight:600; }
+  .proj-body p{ margin:0; font-size:0.88rem; color:var(--ink-muted); line-height:1.5; }
+  .proj-stack{ display:flex; flex-wrap:wrap; gap:6px; margin-block-start:auto; padding-block-start:4px; }
+  .stack-tag{
+    font-size:0.72rem; font-weight:500; color:var(--accent); background:var(--accent-soft);
+    padding:3px 9px; border-radius:99px;
+  }
+  .proj-card--featured{ grid-column: span 3; }
+  @media (max-width:760px){ .proj-card--featured{ grid-column: span 1; } }
+  .proj-thumb--image{ height:auto; padding:0; }
+  .proj-thumb--image img{ width:100%; display:block; }
+  .proj-thumb--calc{ background:#0D1316; display:flex; justify-content:center; }
+  .proj-thumb--calc img{ width:auto; max-width:280px; max-height:340px; }
+  .proj-shots{
+    display:flex; border:1px solid var(--line); border-radius:8px; overflow:hidden; margin-block-start:2px;
+  }
+  .proj-shots img{ width:100%; display:block; }
+  .proj-link{
+    font-size:0.85rem; font-weight:600; color:var(--accent); text-decoration:none;
+    margin-block-start:auto; padding-block-start:4px;
+  }
+  .proj-link:hover{ text-decoration:underline; }
+
+  /* References */
+  .ref-list{ display:flex; flex-direction:column; gap:16px; }
+  .ref-item{ display:flex; gap:14px; align-items:flex-start; }
+  .ref-dot{ width:8px; height:8px; border-radius:50%; background:var(--accent); margin-block-start:7px; flex-shrink:0; }
+  .ref-item p{ margin:0; font-size:0.94rem; }
+  .ref-item .sub{ color:var(--ink-muted); font-size:0.85rem; margin-block-start:2px; }
+
+  /* Contact */
+  .contact-layout{ display:grid; grid-template-columns:1fr 1fr; gap:40px; }
+  @media (max-width:680px){ .contact-layout{ grid-template-columns:1fr; } }
+  .contact-info{ display:flex; flex-direction:column; gap:16px; }
+  .info-row{ display:flex; align-items:center; gap:12px; }
+  .info-row svg{ width:18px; height:18px; stroke:var(--accent); flex-shrink:0; }
+  .info-row a, .info-row span.val{ color:var(--ink); text-decoration:none; font-size:0.94rem; }
+  .info-row a:hover{ color:var(--accent); }
+  .copy-btn{
+    font-size:0.75rem; font-weight:500; background:none; border:1px solid var(--line);
+    border-radius:6px; padding:3px 9px; color:var(--ink-muted); cursor:pointer; margin-inline-start:4px;
+  }
+  .copy-btn:hover{ border-color:var(--accent); color:var(--accent); }
+  .copy-btn:focus-visible{ outline:2px solid var(--accent); outline-offset:1px; }
+
+  form.contact-form{ display:flex; flex-direction:column; gap:14px; }
+  .field label{ display:block; font-size:0.82rem; font-weight:500; margin-block-end:6px; }
+  .field input, .field textarea{
+    width:100%; font-family:var(--font-body); font-size:0.92rem; color:var(--ink);
+    background:var(--bg-alt); border:1px solid var(--line); border-radius:8px;
+    padding:10px 12px; resize:vertical;
+  }
+  .field input:focus, .field textarea:focus{ outline:2px solid var(--accent); outline-offset:1px; border-color:transparent; }
+  .field textarea{ min-height:96px; }
+  .form-note{ font-size:0.78rem; color:var(--ink-muted); }
+  .submit-btn{
+    align-self:flex-start; font-family:var(--font-body); font-weight:600; font-size:0.9rem;
+    background:var(--ink); color:var(--bg); border:none; border-radius:8px; padding:11px 22px; cursor:pointer;
+  }
+  .submit-btn:hover{ opacity:0.88; }
+  .submit-btn:focus-visible{ outline:2px solid var(--accent); outline-offset:2px; }
+  .form-status{ font-size:0.85rem; color:var(--accent); min-height:1.2em; }
+
+  footer{
+    padding-block:24px; padding-bottom:calc(24px + env(safe-area-inset-bottom, 0px));
+    text-align:center; font-size:0.8rem; color:var(--ink-muted);
+  }
+</style>
+
+<header class="top">
+  <div class="wrap">
+    <span class="mark">NB</span>
+    <nav class="tabs" aria-label="Sections">
+      <a href="#hero">À propos</a>
+      <a href="#competences">Compétences</a>
+      <a href="#diplomes">Diplômes</a>
+      <a href="#projets">Portfolio</a>
+      <a href="#references">Références</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <section id="hero">
+    <div class="hero-row">
+      <div class="avatar">NB</div>
+      <div class="hero-text">
+        <h1 class="name">Noann Beaux</h1>
+        <p class="role">Étudiant en informatique, EPITA — Bac général Mathématiques &amp; Physique-Chimie, mention Bien</p>
+        <p class="bio">
+          Curieux de tout ce qui touche à l'informatique, je construis mes propres outils à côté des cours
+          et je multiplie les expériences de terrain. Je vise une carrière d'ingénieur, avec un intérêt marqué
+          pour la cybersécurité et l'intelligence artificielle.
+        </p>
+        <div class="cta-row">
+          <a class="btn primary" href="#contact">Me contacter</a>
+          <a class="btn ghost" href="https://github.com/noannbx" target="_blank" rel="noopener">Voir mon GitHub</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="competences">
+    <div class="kicker">Compétences</div>
+    <h2>Ce que je sais faire</h2>
+    <div class="skill-groups">
+      <div class="skill-group">
+        <h3>Langages &amp; outils</h3>
+        <div class="skill">
+          <div class="skill-label"><span>Python</span><span class="lvl">Solide</span></div>
+          <div class="bar"><span style="width:70%"></span></div>
+        </div>
+        <div class="skill">
+          <div class="skill-label"><span>C</span><span class="lvl">Intermédiaire</span></div>
+          <div class="bar"><span style="width:55%"></span></div>
+        </div>
+        <div class="skill">
+          <div class="skill-label"><span>HTML</span><span class="lvl">Intermédiaire</span></div>
+          <div class="bar"><span style="width:55%"></span></div>
+        </div>
+        <div class="skill">
+          <div class="skill-label"><span>Git</span><span class="lvl">Intermédiaire</span></div>
+          <div class="bar"><span style="width:50%"></span></div>
+        </div>
+        <div class="skill">
+          <div class="skill-label"><span>Linux</span><span class="lvl">Débutant</span></div>
+          <div class="bar"><span style="width:35%"></span></div>
+        </div>
+        <div class="skill">
+          <div class="skill-label"><span>Excel</span><span class="lvl">Intermédiaire</span></div>
+          <div class="bar"><span style="width:55%"></span></div>
+        </div>
+      </div>
+      <div class="skill-group">
+        <h3>Savoir-être</h3>
+        <div class="soft-skills">
+          <span class="soft-tag">Travail d'équipe</span>
+          <span class="soft-tag">Organisation</span>
+          <span class="soft-tag">Sens du relationnel</span>
+          <span class="soft-tag">Esprit d'initiative</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="diplomes">
+    <div class="kicker">Parcours</div>
+    <h2>Diplômes &amp; formation</h2>
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="tl-year">2025 — aujourd'hui</div>
+        <div class="tl-title">EPITA — École d'ingénieurs en informatique</div>
+        <div class="tl-desc">Domaine d'études : Computer Science. Première année de cycle ingénieur.</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-year">2025</div>
+        <div class="tl-title">Baccalauréat général — mention Bien</div>
+        <div class="tl-desc">Spécialités Mathématiques &amp; Physique-Chimie.</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="projets">
+    <div class="kicker">Réalisations</div>
+    <h2>Portfolio</h2>
+    <div class="proj-grid">
+      <div class="proj-card proj-card--featured">
+        <div class="proj-thumb proj-thumb--image">
+          <img src="frozen-brawl/hero.png" alt="Écran d'accueil du jeu Frozen Brawl">
+        </div>
+        <div class="proj-body">
+          <h3>Frozen Brawl</h3>
+          <p>Jeu vidéo hybride développé en équipe : une boucle de clic &amp; collecte, un système de butin à tirage aléatoire et des combats entre joueurs, dans un univers 2D pixel art.</p>
+          <div class="proj-shots">
+            <img src="frozen-brawl/items.png" alt="Items collectables du jeu, en pixel art">
+          </div>
+          <div class="proj-stack"><span class="stack-tag">Projet d'équipe</span><span class="stack-tag">Jeu vidéo</span></div>
+          <a class="proj-link" href="https://frozen-site-971559.pages.epita.fr/" target="_blank" rel="noopener">Voir le site du jeu →</a>
+        </div>
+      </div>
+      <div class="proj-card proj-card--featured">
+        <div class="proj-thumb proj-thumb--image">
+          <img src="octobre-rose/photo.png" alt="Élèves et participants réunis en tenue rose pour le triathlon Octobre Rose">
+        </div>
+        <div class="proj-body">
+          <h3>Octobre Rose</h3>
+          <p>Organisation d'un triathlon au lycée pour sensibiliser à la lutte contre le cancer du sein, avec mobilisation des élèves et plusieurs épreuves sportives.</p>
+          <div class="proj-stack"><span class="stack-tag">Organisation</span><span class="stack-tag">Événementiel</span></div>
+          <a class="proj-link" href="https://www.nordlittoral.fr/188226/article/2023-10-16/dunkerque-au-lycee-angellier-la-5e-edition-du-triathlon-pour-octobre-rose" target="_blank" rel="noopener">Voir l'article →</a>
+        </div>
+      </div>
+      <div class="proj-card proj-card--featured">
+        <div class="proj-thumb proj-thumb--image">
+          <img src="vinted/profil.png" alt="Profil Vinted de Noann, noannbx, 5 étoiles sur 90 évaluations">
+        </div>
+        <div class="proj-body">
+          <h3>Achat-revente Vinted</h3>
+          <p>Activité de vente en ligne menée en autonomie : sourcing, tarification, négociation, expédition. 90 évaluations, 5 étoiles.</p>
+          <div class="proj-stack"><span class="stack-tag">Entrepreneuriat</span><span class="stack-tag">E-commerce</span></div>
+        </div>
+      </div>
+      <div class="proj-card proj-card--featured">
+        <div class="proj-thumb proj-thumb--image proj-thumb--calc">
+          <img src="vinted-calc/screen.png" alt="Interface du calculateur de marge Vinted, avec prix d'achat, prix de vente et résultats de marge nette, marge et ROI">
+        </div>
+        <div class="proj-body">
+          <h3>Calculateur de marge Vinted</h3>
+          <p>Petite application que j'ai développée pour calculer instantanément ma marge nette, mon taux de marge et mon ROI sur chaque revente, à partir du prix d'achat, du prix de vente et des frais.</p>
+          <div class="proj-stack"><span class="stack-tag">React</span><span class="stack-tag">Développement perso</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="references">
+    <h2>Expériences professionnelles</h2>
+    <div class="ref-list">
+      <div class="ref-item">
+        <span class="ref-dot"></span>
+        <div>
+          <p>Job d'été — Mairie, espaces verts</p>
+          <div class="sub">Entretien des espaces verts municipaux, travail en extérieur et en équipe.</div>
+        </div>
+      </div>
+      <div class="ref-item">
+        <span class="ref-dot"></span>
+        <div>
+          <p>Stage — Grande surface</p>
+          <div class="sub">Contact direct avec la clientèle, polyvalence et gestion du rythme.</div>
+        </div>
+      </div>
+      <div class="ref-item">
+        <span class="ref-dot"></span>
+        <div>
+          <p>Stage — Gendarmerie</p>
+          <div class="sub">Immersion dans le fonctionnement d'un service public, rigueur et sens des responsabilités.</div>
+        </div>
+      </div>
+      <div class="ref-item">
+        <span class="ref-dot"></span>
+        <div>
+          <p>Stage — Cabinet d'ostéopathie</p>
+          <div class="sub">Découverte du milieu paramédical, sens de l'écoute et discrétion.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact" style="border-bottom:none;">
+    <h2>Contact</h2>
+    <div class="contact-info">
+      <div class="info-row">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.6"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m4 7 8 6 8-6"/></svg>
+        <span class="val" id="email-val">noann.beaux@icloud.com</span>
+      </div>
+      <div class="info-row">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.6"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.4c0-1 .1-1.4-.5-2 2.8-.3 5.5-1.4 5.5-6a4.6 4.6 0 0 0-1.3-3.2 4.2 4.2 0 0 0-.1-3.2s-1-.3-3.4 1.2a11.6 11.6 0 0 0-6.2 0C7.6 3 6.6 3.3 6.6 3.3a4.2 4.2 0 0 0-.1 3.2A4.6 4.6 0 0 0 5.2 9.7c0 4.6 2.7 5.7 5.5 6-.6.6-.6 1.2-.5 2V21"/></svg>
+        <a href="https://github.com/noannbx" target="_blank" rel="noopener">github.com/noannbx</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+
+<script>
+(function(){
+  var btn = document.getElementById('copy-email');
+  var val = document.getElementById('email-val');
+  if(btn && val){
+    btn.addEventListener('click', function(){
+      var text = val.textContent.trim();
+      function fallbackSelect(){
+        var range = document.createRange();
+        range.selectNodeContents(val);
+        var sel = window.getSelection();
+        sel.removeAllRanges();
+        sel.addRange(range);
+      }
+      function done(){
+        var original = btn.textContent;
+        btn.textContent = 'Copié';
+        setTimeout(function(){ btn.textContent = original; }, 1600);
+      }
+      try{
+        if(navigator.clipboard && navigator.clipboard.writeText){
+          navigator.clipboard.writeText(text).then(done, fallbackSelect);
+        } else { fallbackSelect(); }
+      }catch(e){ fallbackSelect(); }
+    });
+  }
+
+})();
+</script>
